@@ -6,8 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { IconButton } from '@mui/material';
+import { UserTableRow } from './UserTableRow';
 
 interface UserTableType {
   userData: Array<{
@@ -28,8 +27,6 @@ export const UsersTable: React.FC<UserTableType> = ({
   handleDeleteUser,
   lastUpdatedUserID,
 }) => {
-  console.log('RERENDER');
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -44,33 +41,12 @@ export const UsersTable: React.FC<UserTableType> = ({
         </TableHead>
         <TableBody>
           {userData.slice(0, maxDataVisible).map((row) => (
-            <TableRow
+            <UserTableRow
               key={row.userId}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell align="left">
-                <img
-                  srcSet={row.avatar}
-                  src={row.avatar}
-                  alt={row.username}
-                  loading="lazy"
-                  width={40}
-                  height={40}
-                />
-              </TableCell>
-              <TableCell align="left">{row.username}</TableCell>
-              <TableCell align="left">{row.email}</TableCell>
-              <TableCell align="left">{row.score}</TableCell>
-              <TableCell align="left">
-                <IconButton
-                  aria-label="delete"
-                  color="primary"
-                  onClick={() => handleDeleteUser(row.userId)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
+              data={row}
+              isNewUser={row.userId === lastUpdatedUserID}
+              handleDeleteUser={handleDeleteUser}
+            />
           ))}
         </TableBody>
       </Table>

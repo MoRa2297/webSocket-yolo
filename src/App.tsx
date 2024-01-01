@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { CustomTabPanel } from './component/TabPanel';
-import { UsersTable } from './component/UsersTable';
+import { UsersTable } from './component/Table/UsersTable';
 import { Slider, Typography } from '@mui/material';
 import { io } from 'socket.io-client';
 
-type UserData = {
+export type UserData = {
   avatar: string;
   email: string;
   score: number;
@@ -43,14 +43,6 @@ const App: React.FC = () => {
   const handleSetUserData = useCallback(
     (newData: UserData) => {
       setLastUpdatedUserID(newData.userId);
-
-      // if (userData.length < sliderValue) {
-      //   setUserData((prevArray) =>
-      //     [...prevArray, newData].sort((a, b) => a.score - b.score).reverse(),
-      //   );
-      //   return;
-      // }
-
       setUserData((prevArray) =>
         [...prevArray, newData]
           .sort((a, b) => a.score - b.score)
@@ -90,10 +82,9 @@ const App: React.FC = () => {
         />
       </CustomTabPanel>
       <CustomTabPanel value={selectedTab} index={1}>
-        <Typography gutterBottom>Tooltip value label</Typography>
+        <Typography gutterBottom>Limit</Typography>
         <Slider
           defaultValue={10}
-          aria-label="Default"
           valueLabelDisplay="auto"
           marks={[
             { value: 0, label: '1' },
