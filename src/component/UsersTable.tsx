@@ -9,25 +9,27 @@ import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from '@mui/material';
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
-) {
-  return { name, calories, fat, carbs, protein };
+interface UserTableType {
+  userData: Array<{
+    avatar: string;
+    email: string;
+    score: number;
+    userId: string;
+    username: string;
+  }>;
+  maxDataVisible: number;
+  handleDeleteUser: (id: string) => void;
+  lastUpdatedUserID: string;
 }
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+export const UsersTable: React.FC<UserTableType> = ({
+  userData,
+  maxDataVisible,
+  handleDeleteUser,
+  lastUpdatedUserID,
+}) => {
+  console.log('RERENDER');
 
-export const UsersTable = () => {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -41,24 +43,30 @@ export const UsersTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {userData.slice(0, maxDataVisible).map((row) => (
             <TableRow
-              key={row.name}
+              key={row.userId}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell align="left">
                 <img
-                  srcSet={`https://placehold.co/40x40`}
-                  src={`https://placehold.co/40x40`}
-                  alt={'Title'}
+                  srcSet={row.avatar}
+                  src={row.avatar}
+                  alt={row.username}
                   loading="lazy"
+                  width={40}
+                  height={40}
                 />
               </TableCell>
-              <TableCell align="left">{row.calories}</TableCell>
-              <TableCell align="left">{row.fat}</TableCell>
-              <TableCell align="left">{row.carbs}</TableCell>
+              <TableCell align="left">{row.username}</TableCell>
+              <TableCell align="left">{row.email}</TableCell>
+              <TableCell align="left">{row.score}</TableCell>
               <TableCell align="left">
-                <IconButton aria-label="delete" color="primary">
+                <IconButton
+                  aria-label="delete"
+                  color="primary"
+                  onClick={() => handleDeleteUser(row.userId)}
+                >
                   <DeleteIcon />
                 </IconButton>
               </TableCell>

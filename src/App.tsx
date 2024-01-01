@@ -1,38 +1,98 @@
-import * as React from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { CustomTabPanel } from './component/TabPanel';
 import { UsersTable } from './component/UsersTable';
 import { Slider, Typography } from '@mui/material';
+import { io } from 'socket.io-client';
+
+type UserData = {
+  avatar: string;
+  email: string;
+  score: number;
+  userId: string;
+  username: string;
+};
 
 const App: React.FC = () => {
-  const [value, setValue] = React.useState(0);
+  const [selectedTab, setSelectedTab] = useState<number>(0);
+  const [sliderValue, setsliderValue] = useState<number>(10);
+  const [userData, setUserData] = useState<UserData[]>([]);
+  const [lastUpdatedUserID, setLastUpdatedUserID] = useState('');
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    console.log('newValue: ', newValue);
-    setValue(newValue);
+  const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
+    setSelectedTab(newValue);
   };
+
+  const handleChangeSlider = (event: Event, newValue: number | number[]) => {
+    if (typeof newValue === 'number') {
+      setsliderValue(newValue);
+      setUserData((prevArray) => {
+        return prevArray.slice(0, newValue);
+      });
+    }
+  };
+
+  const handleDeleteUser = (userId: string) => {
+    setUserData((prevArray) =>
+      prevArray.filter((item) => item.userId !== userId),
+    );
+  };
+
+  const handleSetUserData = useCallback(
+    (newData: UserData) => {
+      setLastUpdatedUserID(newData.userId);
+
+      // if (userData.length < sliderValue) {
+      //   setUserData((prevArray) =>
+      //     [...prevArray, newData].sort((a, b) => a.score - b.score).reverse(),
+      //   );
+      //   return;
+      // }
+
+      setUserData((prevArray) =>
+        [...prevArray, newData]
+          .sort((a, b) => a.score - b.score)
+          .reverse()
+          .slice(0, sliderValue),
+      );
+    },
+    [sliderValue, userData],
+  );
+
+  useEffect(() => {
+    const socket = io('ws://localhost:3001');
+
+    socket.on('userData', (data) => {
+      handleSetUserData(data);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [handleSetUserData]);
 
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
+        <Tabs value={selectedTab} onChange={handleChangeTab}>
           <Tab label="Leaderboard" />
           <Tab label="Settings" />
         </Tabs>
       </Box>
-      <CustomTabPanel value={value} index={0}>
-        <UsersTable />
+      <CustomTabPanel value={selectedTab} index={0}>
+        <UsersTable
+          userData={userData}
+          maxDataVisible={sliderValue}
+          handleDeleteUser={handleDeleteUser}
+          lastUpdatedUserID={lastUpdatedUserID}
+        />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
+      <CustomTabPanel value={selectedTab} index={1}>
         <Typography gutterBottom>Tooltip value label</Typography>
         <Slider
-          defaultValue={20}
+          defaultValue={10}
           aria-label="Default"
           valueLabelDisplay="auto"
           marks={[
@@ -42,6 +102,8 @@ const App: React.FC = () => {
           step={1}
           min={0}
           max={20}
+          onChange={handleChangeSlider}
+          value={sliderValue}
         />
       </CustomTabPanel>
     </Box>
