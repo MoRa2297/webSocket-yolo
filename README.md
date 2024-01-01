@@ -19,3 +19,6 @@
 - The example in video uses Material UI.
 - Your solution should include the same visual elements as in video, but the design doesn't have to be an exact match.
 - Push your code to GitHub and share it with your hiring contact.
+
+npx prettier --write .
+npx prettier . --check
