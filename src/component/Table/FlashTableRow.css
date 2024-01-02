@@ -1,5 +1,5 @@
 .animated {
-  animation: flashAnimation 1s ease-in-out;
+  animation: flashAnimation 1s ease;
 }
 
 @keyframes flashAnimation {
