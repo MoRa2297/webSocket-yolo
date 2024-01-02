@@ -11,10 +11,6 @@ export const SettingsScreen: React.FC<SettingsScreenType> = ({}) => {
 
   const handleChangeSlider = (event: Event, newValue: number | number[]) => {
     if (typeof newValue === 'number') {
-      // setsliderValue(newValue);
-      // setUserData((prevArray) => {
-      //   return prevArray.slice(0, newValue);
-      // });
       updateSliderValue(newValue);
     }
   };
