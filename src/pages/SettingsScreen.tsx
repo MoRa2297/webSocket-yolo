@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import { UsersTable } from '../component/Table/UsersTable';
-import { UserData } from '../types';
+import React from 'react';
 import { Box, Slider, Typography } from '@mui/material';
 import { useAppData } from '../hooks/useStores';
 
