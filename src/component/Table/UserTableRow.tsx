@@ -2,8 +2,8 @@ import React from 'react';
 import TableCell from '@mui/material/TableCell';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton, TableRow } from '@mui/material';
-import { UserData } from '../../App';
 import './FlashTableRow.css';
+import { UserData } from '../../types';
 
 interface UserTableRowType {
   data: UserData;

@@ -4,7 +4,16 @@
 
 @keyframes flashAnimation {
   0% {
-    background-color: orange;
+    background-color: #ffa500;
+  }
+  20% {
+    background-color: #ffb732;
+  }
+  40% {
+    background-color: #ffd27f;
+  }
+  60% {
+    background-color: #ffe4b2;
   }
   100% {
     background-color: transparent;
