@@ -27,11 +27,11 @@ export const UsersTable: React.FC<UserTableType> = ({
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell></TableCell>
+            <TableCell />
             <TableCell align="left">Username</TableCell>
             <TableCell align="left">Email</TableCell>
             <TableCell align="left">Score</TableCell>
-            <TableCell></TableCell>
+            <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>

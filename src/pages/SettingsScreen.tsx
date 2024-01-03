@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Slider, Typography } from '@mui/material';
-import { useAppData } from '../hooks/useStores';
+import { useAppData } from '../hooks/useAppData';
 
 interface SettingsScreenType {}
 

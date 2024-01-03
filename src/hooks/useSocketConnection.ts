@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import io from 'socket.io-client';
-import { useAppData } from './useStores';
+import { useAppData } from './useAppData';
 
 const useSocket = (serverUrl: string) => {
   const { updateUserData } = useAppData();
@@ -15,7 +15,7 @@ const useSocket = (serverUrl: string) => {
     return () => {
       socket.disconnect();
     };
-  }, [serverUrl]);
+  }, [serverUrl, updateUserData]);
 };
 
 export default useSocket;
