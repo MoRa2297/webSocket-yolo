@@ -4,11 +4,8 @@ import { Box } from '@mui/material';
 import useSocket from '../hooks/useSocketConnection';
 import { useAppData } from '../hooks/useAppData';
 
-interface TableScreenType {}
-
-export const TableScreen: React.FC<TableScreenType> = ({}) => {
-  const { userData, lastUpdatedUserID, sliderValue, deleteUserData } =
-    useAppData();
+export const TableScreen: React.FC = () => {
+  const { userData, lastUpdatedUserID, deleteUserData } = useAppData();
 
   useSocket(process.env.REACT_APP_SERVER_URL as string);
 
@@ -16,7 +13,6 @@ export const TableScreen: React.FC<TableScreenType> = ({}) => {
     <Box sx={{ p: 3 }}>
       <UsersTable
         userData={userData}
-        maxDataVisible={sliderValue}
         handleDeleteUser={deleteUserData}
         lastUpdatedUserID={lastUpdatedUserID}
       />

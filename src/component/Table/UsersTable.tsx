@@ -11,14 +11,12 @@ import { UserData } from '../../types';
 
 interface UserTableType {
   userData: UserData[];
-  maxDataVisible: number;
   handleDeleteUser: (id: string) => void;
   lastUpdatedUserID: string;
 }
 
 export const UsersTable: React.FC<UserTableType> = ({
   userData,
-  maxDataVisible,
   handleDeleteUser,
   lastUpdatedUserID,
 }) => {
@@ -35,7 +33,7 @@ export const UsersTable: React.FC<UserTableType> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {userData.slice(0, maxDataVisible).map((row) => (
+          {userData.map((row) => (
             <UserTableRow
               key={row.userId}
               data={row}

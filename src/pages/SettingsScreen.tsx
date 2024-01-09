@@ -2,10 +2,8 @@ import React from 'react';
 import { Box, Slider, Typography } from '@mui/material';
 import { useAppData } from '../hooks/useAppData';
 
-interface SettingsScreenType {}
-
-export const SettingsScreen: React.FC<SettingsScreenType> = ({}) => {
-  const { sliderValue, updateSliderValue } = useAppData();
+export const SettingsScreen: React.FC = () => {
+  const { sliderValue, updateSliderValue, updateUserData } = useAppData();
 
   const handleChangeSlider = (event: Event, newValue: number | number[]) => {
     if (typeof newValue === 'number') {

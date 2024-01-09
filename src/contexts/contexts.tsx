@@ -1,5 +1,6 @@
-import React, { ReactNode, createContext, useState } from 'react';
+import React, { ReactNode, createContext, useEffect, useState } from 'react';
 import { ContextData, UserData } from '../types';
+import { checkUserDataScore } from '../utils/checkUserDataScore';
 
 export const AppContext = createContext<ContextData | null>(null);
 
@@ -16,14 +17,21 @@ const AppProvider = ({ children }: Props) => {
     setSliderValue(newValue);
   };
 
-  const updateUserData = (userData: UserData) => {
-    setLastUpdatedUserID(userData.userId);
-    setUserData((prevArray) =>
-      [...prevArray, userData]
-        .sort((a, b) => a.score - b.score)
-        .reverse()
-        .slice(0, sliderValue),
+  const updateUserData = (newUserData: UserData) => {
+    const isUserDataUpdateable = checkUserDataScore(
+      userData,
+      sliderValue,
+      newUserData.score,
     );
+    if (isUserDataUpdateable) {
+      setLastUpdatedUserID(newUserData.userId);
+      setUserData((prevArray) =>
+        [...prevArray, newUserData]
+          .sort((a, b) => a.score - b.score)
+          .reverse()
+          .slice(0, sliderValue),
+      );
+    }
   };
 
   const deleteUserData = (userId: string) => {
@@ -31,6 +39,19 @@ const AppProvider = ({ children }: Props) => {
       prevArray.filter((item) => item.userId !== userId),
     );
   };
+
+  const sliceUserData = () => {
+    setUserData((prevArray) =>
+      [...prevArray]
+        .sort((a, b) => a.score - b.score)
+        .reverse()
+        .slice(0, sliderValue),
+    );
+  };
+
+  useEffect(() => {
+    sliceUserData();
+  }, [sliderValue]);
 
   return (
     <AppContext.Provider

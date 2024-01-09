@@ -3,8 +3,9 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'prettier',
+    'plugin:jest/recommended',
   ],
-  plugins: ['prettier', 'react-hooks'],
+  plugins: ['prettier', 'react-hooks', 'jest'],
   rules: {
     'prettier/prettier': 'error',
     'react/prop-types': 'off',

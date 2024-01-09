@@ -17,10 +17,7 @@ export const UserTableRow: React.FC<UserTableRowType> = ({
   handleDeleteUser,
 }) => {
   return (
-    <TableRow
-      key={data.userId}
-      className={`flash${isNewUser ? ' animated' : ''}`}
-    >
+    <TableRow className={`flash${isNewUser ? ' animated' : ''}`}>
       <TableCell align="left">
         <img
           srcSet={data.avatar}
